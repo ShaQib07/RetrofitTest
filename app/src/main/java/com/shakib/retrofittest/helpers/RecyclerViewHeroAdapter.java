@@ -1,4 +1,4 @@
-package com.shakib.retrofittest;
+package com.shakib.retrofittest.helpers;
 
 /*
 *RecyclerView>Adapter
@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.shakib.retrofittest.R;
+import com.shakib.retrofittest.dota.Dota2Hero;
 
 import java.util.List;
 

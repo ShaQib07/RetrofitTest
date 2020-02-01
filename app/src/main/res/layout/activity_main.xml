@@ -6,21 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/marvel_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:text="Marvel"
+            android:background="#E4A673"/>
+
+        <Button
+            android:id="@+id/dota_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:text="Dota"
+            android:background="#E47382"/>
+
+        <Button
+            android:id="@+id/iota_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:text="Iota"
+            android:background="#E473CD"/>
+
+        <Button
+            android:id="@+id/doodle_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:text="Doodle"
+            android:background="#73E4CA"/>
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
+        android:layout_below="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <ListView
         android:id="@+id/list"
-        android:visibility="gone"
+        android:layout_below="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/text"
-        android:visibility="gone"
+        android:layout_below="@+id/container"
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textAlignment="center"

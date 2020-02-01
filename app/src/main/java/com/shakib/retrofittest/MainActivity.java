@@ -6,10 +6,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.shakib.retrofittest.doodle.Category;
+import com.shakib.retrofittest.doodle.CategoryResponse;
+import com.shakib.retrofittest.doodle.doodleApi;
+import com.shakib.retrofittest.dota.Dota2Hero;
+import com.shakib.retrofittest.dota.localhostAPi;
+import com.shakib.retrofittest.helpers.RecyclerViewHeroAdapter;
+import com.shakib.retrofittest.iota.iotaApi;
+import com.shakib.retrofittest.iota.iotaTest;
+import com.shakib.retrofittest.marvel.Api;
+import com.shakib.retrofittest.marvel.Hero;
 
 import java.util.List;
 
@@ -25,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     RecyclerView recyclerView;
     RecyclerViewHeroAdapter adapter;
+    Button marvel, dota, iota, doodle;
+    LinearLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +53,96 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getDotaData();
+        container = findViewById(R.id.container);
 
-        //getMarvelData();
+        marvel = findViewById(R.id.marvel_btn);
+        marvel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                textView.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+                getMarvelData();
+                Toast.makeText(MainActivity.this, "Clicked on marvel", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-       //getIotaData();
+        dota = findViewById(R.id.dota_btn);
+        dota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
+                getDotaData();
+                Toast.makeText(MainActivity.this, "Clicked on dota", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        iota = findViewById(R.id.iota_btn);
+        iota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+               getIotaData();
+                Toast.makeText(MainActivity.this, "Clicked on iota", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        doodle = findViewById(R.id.doodle_btn);
+        doodle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.VISIBLE);
+                getDoodleData();
+                Toast.makeText(MainActivity.this, "Clicked on doodle", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getDoodleData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(doodleApi.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        doodleApi api = retrofit.create(doodleApi.class);
+
+        Call<CategoryResponse> call = api.getCategoryList();
+
+        call.enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+
+                CategoryResponse categoryResponse = response.body();
+                List<Category> categoryList = categoryResponse.getCategories();
+
+                String[] categoryNames = new String[categoryList.size()];
+
+                for (int i = 0; i <categoryList.size(); i++){
+                    categoryNames[i] = categoryList.get(i).getCategory_name();
+                }
+
+                listView.setAdapter(
+                        new ArrayAdapter<>(
+                                getApplicationContext(),
+                                android.R.layout.simple_list_item_1,
+                                categoryNames
+                        )
+                );
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                textView.setText(t.getMessage());
+            }
+        });
     }
 
     private void getDotaData() {
@@ -108,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] heroNames = new String[heroes.size()];
 
                 for (int i = 0; i <heroes.size(); i++){
-                    heroNames[i] = heroes.get(i).getImageurl();
+                    heroNames[i] = heroes.get(i).getName();
                 }
 
                 listView.setAdapter(
@@ -123,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Hero>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                textView.setText(t.getMessage());
             }
         });
     }
@@ -158,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<iotaTest> call, Throwable t) {
-
+                textView.setText(t.getMessage());
             }
         });
     }

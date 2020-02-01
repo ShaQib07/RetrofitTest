@@ -1,6 +1,4 @@
-package com.shakib.retrofittest;
-
-import java.util.List;
+package com.shakib.retrofittest.iota;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

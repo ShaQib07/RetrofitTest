@@ -1,4 +1,4 @@
-package com.shakib.retrofittest;
+package com.shakib.retrofittest.marvel;
 
 public class Hero {
 

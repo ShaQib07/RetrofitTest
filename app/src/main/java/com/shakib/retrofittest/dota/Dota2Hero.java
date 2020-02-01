@@ -1,4 +1,4 @@
-package com.shakib.retrofittest;
+package com.shakib.retrofittest.dota;
 
 public class Dota2Hero {
 
