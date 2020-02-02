@@ -19,7 +19,9 @@ import com.shakib.retrofittest.doodle.CategoryResponse;
 import com.shakib.retrofittest.doodle.doodleApi;
 import com.shakib.retrofittest.dota.Dota2Hero;
 import com.shakib.retrofittest.dota.localhostAPi;
-import com.shakib.retrofittest.helpers.RecyclerViewHeroAdapter;
+import com.shakib.retrofittest.helpers.DoodleAdapter;
+import com.shakib.retrofittest.helpers.DoodleAdapterKotlin;
+import com.shakib.retrofittest.helpers.DotaAdapter;
 import com.shakib.retrofittest.iota.iotaApi;
 import com.shakib.retrofittest.iota.iotaTest;
 import com.shakib.retrofittest.marvel.Api;
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     ListView listView;
     RecyclerView recyclerView;
-    RecyclerViewHeroAdapter adapter;
+    DotaAdapter dotaAdapter;
+    DoodleAdapterKotlin doodleAdapter;
     Button marvel, dota, iota, doodle;
     LinearLayout container;
 
@@ -95,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         doodle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.setVisibility(View.GONE);
-                textView.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
                 getDoodleData();
                 Toast.makeText(MainActivity.this, "Clicked on doodle", Toast.LENGTH_SHORT).show();
             }
@@ -105,45 +108,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getDoodleData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(doodleApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        doodleApi api = retrofit.create(doodleApi.class);
-
-        Call<CategoryResponse> call = api.getCategoryList();
-
-        call.enqueue(new Callback<CategoryResponse>() {
-            @Override
-            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-
-                CategoryResponse categoryResponse = response.body();
-                List<Category> categoryList = categoryResponse.getCategories();
-
-                String[] categoryNames = new String[categoryList.size()];
-
-                for (int i = 0; i <categoryList.size(); i++){
-                    categoryNames[i] = categoryList.get(i).getCategory_name();
-                }
-
-                listView.setAdapter(
-                        new ArrayAdapter<>(
-                                getApplicationContext(),
-                                android.R.layout.simple_list_item_1,
-                                categoryNames
-                        )
-                );
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                textView.setText(t.getMessage());
-            }
-        });
-    }
+    /*private void getMarvelData() {
+        listView.setAdapter(
+                new ArrayAdapter<>(
+                        getApplicationContext(),
+                        android.R.layout.simple_list_item_1,
+                        Common.categoryName
+                )
+        );
+    }*/
 
     private void getDotaData() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -161,22 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Dota2Hero> heroes = response.body();
 
-                /*String[] heroNames = new String[heroes.size()];
-
-                for (int i = 0; i <heroes.size(); i++){
-                    heroNames[i] = heroes.get(i).getName();
-                }
-
-                listView.setAdapter(
-                        new ArrayAdapter<>(
-                                getApplicationContext(),
-                                android.R.layout.simple_list_item_1,
-                                heroNames
-                        )
-                );*/
-
-                adapter = new RecyclerViewHeroAdapter(getApplicationContext(), heroes);
-                recyclerView.setAdapter(adapter);
+                dotaAdapter = new DotaAdapter(getApplicationContext(), heroes);
+                recyclerView.setAdapter(dotaAdapter);
             }
 
             @Override
@@ -187,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void getMarvelData() {
         //for practice
@@ -259,6 +220,49 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<iotaTest> call, Throwable t) {
+                textView.setText(t.getMessage());
+            }
+        });
+    }
+
+    private void getDoodleData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(doodleApi.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        doodleApi api = retrofit.create(doodleApi.class);
+
+        Call<CategoryResponse> call = api.getCategoryList();
+
+        call.enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+
+                CategoryResponse categoryResponse = response.body();
+                List<Category> categoryList = categoryResponse.getCategories();
+
+                /*String[] categoryNames = new String[categoryList.size()];
+
+                for (int i = 0; i <categoryList.size(); i++){
+                    categoryNames[i] = categoryList.get(i).getCategory_name();
+                }
+
+                listView.setAdapter(
+                        new ArrayAdapter<>(
+                                getApplicationContext(),
+                                android.R.layout.simple_list_item_1,
+                                categoryNames
+                        )
+                );*/
+
+                doodleAdapter = new DoodleAdapterKotlin(getApplicationContext(), categoryList);
+                recyclerView.setAdapter(doodleAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 textView.setText(t.getMessage());
             }
         });

@@ -1,33 +1,25 @@
 package com.shakib.retrofittest.helpers;
 
-/*
-*RecyclerView>Adapter
-* RecyclerView.ViewHolder
-*/
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.shakib.retrofittest.R;
 import com.shakib.retrofittest.dota.Dota2Hero;
-
 import java.util.List;
 
-public class RecyclerViewHeroAdapter extends RecyclerView.Adapter<RecyclerViewHeroAdapter.HeroViewHolder> {
+public class DotaAdapter extends RecyclerView.Adapter<DotaAdapter.HeroViewHolder> {
 
     private Context mContext;
     private List<Dota2Hero> mHeroList;
 
-    public RecyclerViewHeroAdapter(Context mContext, List<Dota2Hero> mHeroList) {
+    public DotaAdapter(Context mContext, List<Dota2Hero> mHeroList) {
         this.mContext = mContext;
         this.mHeroList = mHeroList;
     }
@@ -36,7 +28,7 @@ public class RecyclerViewHeroAdapter extends RecyclerView.Adapter<RecyclerViewHe
     @Override
     public HeroViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.row, null);
+        View view = inflater.inflate(R.layout.row_dota, null);
         return new HeroViewHolder(view);
     }
 
