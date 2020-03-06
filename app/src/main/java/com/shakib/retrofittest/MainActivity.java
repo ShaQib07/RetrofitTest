@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void getMarvelData() {
         //for practice
         Retrofit retrofit = new Retrofit.Builder()

@@ -1,7 +1,7 @@
 package com.shakib.retrofittest.dota;
 
 public class Dota2Hero {
-
+    private boolean selected;
     private String name;
     private String role;
     private String image_url;
@@ -22,5 +22,13 @@ public class Dota2Hero {
 
     public String getImage_url() {
         return image_url;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

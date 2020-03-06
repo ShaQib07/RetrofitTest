@@ -26,12 +26,12 @@ public class DoodleAdapter extends RecyclerView.Adapter<DoodleAdapter.DoodleView
         this.mCategoryList = mCategoryList;
     }
 
-    public class DoodleViewHolder extends RecyclerView.ViewHolder {
+    static class DoodleViewHolder extends RecyclerView.ViewHolder {
 
         TextView mCategoryName;
         Button mCategoryButton;
 
-        public DoodleViewHolder(@NonNull View itemView) {
+        DoodleViewHolder(@NonNull View itemView) {
             super(itemView);
             mCategoryName = itemView.findViewById(R.id.category_name);
             mCategoryButton = itemView.findViewById(R.id.category_btn);
@@ -42,7 +42,7 @@ public class DoodleAdapter extends RecyclerView.Adapter<DoodleAdapter.DoodleView
     @Override
     public DoodleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.row_doodle, null);
+        View view = inflater.inflate(R.layout.row_doodle, parent);
         return new DoodleViewHolder(view);
     }
 
