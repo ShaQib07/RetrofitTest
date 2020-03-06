@@ -18,7 +18,7 @@ import java.util.List;
 
 public class DotaAdapter extends RecyclerView.Adapter<DotaAdapter.HeroViewHolder> {
 
-    int selected_position = 0;
+    private int selected_position = 0;
     private Context mContext;
     private List<Dota2Hero> mHeroList;
 
@@ -39,8 +39,7 @@ public class DotaAdapter extends RecyclerView.Adapter<DotaAdapter.HeroViewHolder
     public void onBindViewHolder(@NonNull HeroViewHolder holder, final int position) {
         final Dota2Hero hero = mHeroList.get(position);
 
-        holder.cardView.setActivated(hero.isSelected());
-        holder.itemView.setBackgroundColor(selected_position == position ? Color.GREEN : Color.TRANSPARENT);
+        holder.itemView.setBackgroundColor(selected_position == position ? Color.CYAN : Color.TRANSPARENT);
 
         holder.name.setText(hero.getName());
         holder.role.setText(hero.getRole());
@@ -63,11 +62,9 @@ public class DotaAdapter extends RecyclerView.Adapter<DotaAdapter.HeroViewHolder
 
         ImageView imageView;
         TextView name, role;
-        CardView cardView;
 
         HeroViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.main_card_view);
             imageView = itemView.findViewById(R.id.hero_image);
             name = itemView.findViewById(R.id.hero_name);
             role = itemView.findViewById(R.id.hero_role);
